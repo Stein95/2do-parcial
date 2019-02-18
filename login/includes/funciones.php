@@ -1,25 +1,47 @@
 <?php  
-	require_once("conexion.php");
-	// echo "HOLA";
-	switch ($_POST["accion"]) {
+	require_once("db.php");
+	switch ($_POST["action"]) {
 		case 'login':
 			login();
 			break;
 		
 		default:
-		echo "eror";
 			# code...
 			break;
 	}
 	function login(){
-		echo "Tu usuario es: ".$_POST["usuario"].", Tu contraseña es: ".$_POST["password"];
+		global $mysqli;
+
+		$correo = $_POST["correo"];
+		$pass = $_POST["password"];	
+
+		$consulta = "SELECT * FROM usuarios WHERE correo_usr = '$correo'";
+		$resultado = $mysqli->query($consulta);
+		$fila = $resultado->fetch_assoc();
 		
-		// Conectar a Base de Datos.
-		// 	Si usuario y contraseña estan vacios imprimir = 3 
-		// Consultar a Base de Datos que exista el usuario.
-		// 	Si el usuario existe, conusltar que el password sea correcto. 
-		// 			Si el password es correcto imprimir = 1 
-		// 			Si el password no es correcto, imprimir codigo de erorres = 0.
-		// 	Si el usuario no existe imprimir = 2
-	}
-?>
+		if ($fila == 0) 
+			{
+
+				echo "[2]";
+
+			}
+
+
+		else if ($fila["password"] != $pass) 
+			{
+				$consulta = "SELECT * FROM usuarios WHERE correo_usr = '$correo' AND password = '$pass'";
+				$resultado = $mysqli->query($consulta);
+				$fila = $resultado->fetch_assoc();
+
+				echo "[0]";
+
+				
+			}
+				else if($correo == $fila["correo_usr"] && $pass == $fila["password"])
+				{
+
+					echo "[1]"	;
+					
+				}
+			}
+?>		
