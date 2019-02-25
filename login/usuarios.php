@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,13 +8,11 @@
   <meta name="generator" content="Jekyll v3.8.5">
   <title>Dashboard Template · Bootstrap</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-  <!-- Custom styles for this template -->
   <link href="css/estilos.css" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">ActiveBox</a>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
       <li class="nav-item text-nowrap">
@@ -32,41 +29,51 @@
             <li class="nav-item">
               <a class="nav-link active" href="#">
                 <span data-feather="home"></span>
-                Features <span class="sr-only">(current)</span>
+                Usuarios <span class="sr-only">(current)</span>
               </a>
             </li>
-           <li class="nav-item">
+             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="file"></span>
-                works
+                Main
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file"></span>
+                Features
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="shopping-cart"></span>
-                our team
+                Works
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="users"></span>
-                testimonial
+                OurTeam
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="bar-chart-2"></span>
-                downloads
+                Testimonials
               </a>
             </li>
-            
-          </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="layers"></span>
+                Downloads
+              </a>
+            </li>
         </div>
       </nav>
 
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">features</h1>
+          <h1 class="h2">Dashboard</h1>
           <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
               <button type="button" class="btn btn-sm btn-outline-danger cancelar">Cancelar</button>
@@ -136,6 +143,7 @@
           // $(this).removeClass("d-none");
         }
       });
+
     }
     function consultar(){
       let obj = {
@@ -165,9 +173,20 @@
     $("#nuevo_registro").click(function(){
       change_view('insert_data');
     });
-    $("#guardar_datos").click(function(){
+
+    $("#guardar_datos").click(function(guardar){
+     // Funcion para guardar Datos
+      let nombre = $("#nombre").val();
+      let correo = $("#correo").val();
+      let telefono = $("#telefono").val();
+      let password = $("#password").val();
+      // Inicializar el objetos
       let obj ={
-        "accion" : "insertar_usuarios"
+        "accion" : "insertar_usuarios",
+        "nombre" : nombre,
+        "correo" : correo,
+        "password" : password,
+        "telefono" : telefono
       }
       $("#form_data").find("input").each(function(){
         $(this).removeClass("has-error");
@@ -178,8 +197,17 @@
           return false;
         }
       });
-      $.post("includes/_funciones.php", obj, function(){});
+      $.post("includes/_funciones.php", obj, function(verificado){ 
+      if (verificado != "" ) {
+       alert("Usuario Registrado");
+        }
+      else {
+        alert("Usuario NO Registrado");
+      } 
+     }
+     );
     });
+
     $("#main").find(".cancelar").click(function(){
       change_view();
       $("#form_data")[0].reset();
