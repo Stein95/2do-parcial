@@ -10,7 +10,7 @@ body {
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #8A0829;
+  background-color: #3DCFDB;
 }
 
 .form-signin {
@@ -42,3 +42,5 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+img{height: 150px;}
+#text1{color: #e4007c; }

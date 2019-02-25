@@ -4,11 +4,32 @@
 		case 'login':
 			login();
 			break;
+		case 'consultar_usuarios':
+			consultar_usuarios();
+			break;
 		
 		default:
-			# code...
+
 			break;
 	}
+function consultar_usuarios(){
+
+global $mysqli;
+
+
+		$consulta = "SELECT * FROM usuarios";
+		$resultado = $mysqli->query($consulta);
+		$arreglo=[];
+		while ($fila = $resultado->fetch_assoc()) {
+			array_push($arreglo, $fila);
+		};
+		//print_r($fila); 
+		//imprime el json encodeado
+		echo json_encode($arreglo);
+
+
+}
+
 	function login(){
 		global $mysqli;
 
@@ -19,10 +40,10 @@
 		$resultado = $mysqli->query($consulta);
 		$fila = $resultado->fetch_assoc();
 		
-		if ($fila == 0) 
+		if ($fila > 0) 
 			{
 
-				echo "[2]";
+				echo "Error: 2";
 
 			}
 
@@ -33,14 +54,14 @@
 				$resultado = $mysqli->query($consulta);
 				$fila = $resultado->fetch_assoc();
 
-				echo "[0]";
+				echo "Error: 0";
 
 				
 			}
 				else if($correo == $fila["correo_usr"] && $pass == $fila["password"])
 				{
 
-					echo "[1]"	;
+					echo "acsseso: 1"	;
 					
 				}
 			}

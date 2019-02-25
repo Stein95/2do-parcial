@@ -1,0 +1,65 @@
+/*clases -> class ->.cointainer-fluid
+ID-> id-> #principal
+etiquetas -> <> -> body, nav
+
+sintaxis
+
+Selector1{
+	atributo1 : "valor" ;
+	atributo2 : #ddd;
+}
+Selctor2{
+
+}*/
+
+body{
+	font-family: 'Raleway', sans-serif;
+}
+header{background: url("../img/background_header.jpg")no-repeat;height: 750px;background-size: cover;
+}
+#logotipo{margin-top: 40px;
+}
+header .nav{justify-content: flex-end;
+}
+
+header .nav-link{
+	font-size: 13px;color: #ffffff;padding-top: 40px
+}
+header .nav-link:hover{background: #fff;color: #31344e
+}
+#text1{font-size:  65px;font-weight: bold;margin-top: 155px;color:#fff; text-align: center;
+}
+
+#text2 {font-size:  65px;font-weight: bold;color: #fff; text-align: center;
+}
+#text3 {font-size:  22px; color: #fff; text-align: center;
+}
+#text4 {font-size:  22px;color: #fff; text-align: center;
+}
+#boton{margin-top: 80px;}
+}
+#text5{font-size:  22px;color: #fff; text-align: center;
+}
+#text6{font-size:  15px;color: #050404; text-align: center;
+}
+#final2 {width:1350px; height:300px;}
+
+#testimonios{margin-top: 80px;}
+#imge{margin-top: 100px;}
+h5{font-weight: bold;font-size: 14px}
+p{font-size: 14px;}
+
+#img1{height: 250px;width: 350px;}
+#img2{height: 250px;width: 350px;}
+#img3{height: 250px;width: 350px;}
+#img4{height: 250px;width: 350px;}
+#img5{height: 250px;width: 350px;}
+#img6{height: 250px;width: 350px;}
+#img7{height: 250px;width: 350px;}
+#img8{height: 250px;width: 350px;}
+
+
+
+
+
+
