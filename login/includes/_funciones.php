@@ -29,6 +29,11 @@ switch ($_POST["accion"]) {
 	case 'insertar_ourteam':
 	insertar_ourteam();
 	break;
+
+	case 'eliminar_registro':
+		eliminar_usuarios($_POST["registro"]);
+		# code...
+		break;
 	
 	default:
 	break;
@@ -44,6 +49,19 @@ function consultar_usuarios(){
 	}
 	echo json_encode($arreglo); 
 }
+
+function eliminar_usuarios($id){
+	global $mysqli;
+	$consulta = "DELETE FROM usuarios WHERE idU =$id";
+	$resultado = mysqli_query($mysqli, $consulta);
+	if ($resultado) {
+		echo "Se elmino correctamente";
+		# code...
+	}else{
+		echo "Se genero un error intenta nuevamente";
+	}
+}
+
 function insertar_usuarios(){
 	global $mysqli;
 	$nomU = $_POST["nombre"];
