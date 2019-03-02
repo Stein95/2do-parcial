@@ -34,9 +34,21 @@ switch ($_POST["accion"]) {
 		eliminar_usuarios($_POST["registro"]);
 		# code...
 		break;
+	case 'editar_usuario':
+		editar_usuario($_POST);
 	
 	default:
 	break;
+}
+function editar_usuarios($id){
+	global $mysqli;
+	$consulta = "SELECT * FROM usuarios WHERE id_usr=$id";
+	$resultado = mysqli_query($mysqli, $consulta);
+	$arreglo = [];
+	while($fila = mysqli_fetch_array($resultado)){
+		array_push($arreglo, $fila);
+	}
+	echo json_encode($arreglo); 
 }
 
 function consultar_usuarios(){
@@ -52,7 +64,7 @@ function consultar_usuarios(){
 
 function eliminar_usuarios($id){
 	global $mysqli;
-	$consulta = "DELETE FROM usuarios WHERE idU =$id";
+	$consulta = "DELETE FROM usuarios WHERE id_usr =$id";
 	$resultado = mysqli_query($mysqli, $consulta);
 	if ($resultado) {
 		echo "Se elmino correctamente";
@@ -64,12 +76,12 @@ function eliminar_usuarios($id){
 
 function insertar_usuarios(){
 	global $mysqli;
-	$nomU = $_POST["nombre"];
-	$correoU = $_POST["correo"];	
-	$passU = $_POST["password"];	
-	$telU = $_POST["telefono"];	
-	$consul1 = "INSERT INTO usuarios VALUES('','$nomU','$correoU','$passU', '$telU', 1)";
-	$resul1 = mysqli_query($mysqli, $consultain);
+	$nombre_usr = $_POST["nombre"];
+	$correo_usr = $_POST["correo"];	
+	$password= $_POST["password"];	
+	$telefono_usr = $_POST["telefono"];	
+	$consul1 = "INSERT INTO usuarios VALUES('','$nombre_usr','$correo_usr','$password', '$telefono_usr', 1)";
+	$resul1 = mysqli_query($mysqli, $consul1);
 	$arre1 = [];
 	while($fila1 = mysqli_fetch_array($resul1)){
 		array_push($arre1, $fila1);
@@ -126,38 +138,45 @@ function insertar_ourteam(){
 	echo json_encode($arregloin);
 }
 
-	function login(){
+function login(){
 		global $mysqli;
-		// Conectar a Base de Datos.
+
 		$correo = $_POST["correo"];
 		$pass = $_POST["password"];	
-		// Consultar a Base de Datos que exista el usuario.
+
 		$consulta = "SELECT * FROM usuarios WHERE correo_usr = '$correo'";
 		$resultado = $mysqli->query($consulta);
 		$fila = $resultado->fetch_assoc();
 		
 		if ($fila == 0) 
 			{
-				// 	Si el usuario no existe imprimir = 2
-				echo "El usuario no existe [ERROR-02]";
+
+				echo "[2]";
 
 			}
 
-			// 	Si el usuario existe, conusltar que el password sea correcto. 
+
 		else if ($fila["password"] != $pass) 
 			{
 				$consulta = "SELECT * FROM usuarios WHERE correo_usr = '$correo' AND password = '$pass'";
 				$resultado = $mysqli->query($consulta);
 				$fila = $resultado->fetch_assoc();
-				// 			Si el password no es correcto, imprimir codigo de erorres = 0.
-				echo "El Password es Incorrecto [ERROR-00]";
+
+				echo "[0]";
 
 				
 			}
 				else if($correo == $fila["correo_usr"] && $pass == $fila["password"])
 				{
-					// 			Si el password es correcto imprimir = 1 
-					echo "El Usuario y Password son Correctos [ACESSO-01]"	;
+
+					echo "[1]"	;
+					session_start();
+					error_reporting(0);
+
+					$_SESSION['usuarios']=$correo;
+					echo $correo;
+					echo $_SESSION['usuarios'];
+  					header("location:../usuarios.php");
 					
 				}
 			}
