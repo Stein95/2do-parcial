@@ -4,19 +4,31 @@ switch ($_POST["accion"]) {
 	case 'login':
 	login();
 	break;
+	//usuarios
 	case 'consultar_usuarios':
 	consultar_usuarios();
 	break;
 	case 'insertar_usuarios':
 	insertar_usuarios();
 	break;
+	case 'editar_usuarios':
+		editar_usuarios($_POST["id"]);
+	break;
+	case 'editar_registro':
+		editar_registro($_POST["id"]);
+	break;
+	case 'eliminar_registro':
+		eliminar_usuarios($_POST["id"]);
+	break;
+	//main
+
 	case 'consultar_encabezado':
 	consultar_encabezado();
 	break;
 	case 'insertar_encabezado':
 	insertar_encabezado();
 	break;
-
+//works
 	case 'consultar_works':
 	consultar_works();
 	break;
@@ -30,27 +42,10 @@ switch ($_POST["accion"]) {
 	insertar_ourteam();
 	break;
 
-	case 'eliminar_registro':
-		eliminar_usuarios($_POST["registro"]);
-		# code...
-		break;
-	case 'editar_usuario':
-		editar_usuario($_POST);
-	
+
 	default:
 	break;
 }
-function editar_usuarios($id){
-	global $mysqli;
-	$consulta = "SELECT * FROM usuarios WHERE id_usr=$id";
-	$resultado = mysqli_query($mysqli, $consulta);
-	$arreglo = [];
-	while($fila = mysqli_fetch_array($resultado)){
-		array_push($arreglo, $fila);
-	}
-	echo json_encode($arreglo); 
-}
-
 function consultar_usuarios(){
 	global $mysqli;
 	$consulta = "SELECT * FROM usuarios";
@@ -61,6 +56,26 @@ function consultar_usuarios(){
 	}
 	echo json_encode($arreglo); 
 }
+
+function editar_usuarios($id){
+	global $mysqli;
+	$nombre = $_POST["nombre"];
+	$correo = $_POST["correo"];	
+	$password = $_POST["password"];	
+	$telefono = $_POST["telefono"];	
+	$consulta = "UPDATE usuarios SET nombre_usr = '$nombre', correo_usr = '$correo', password = '$password', telefono_usr = '$telefono' WHERE id_usr = $id";
+	$resultado = mysqli_query($mysqli, $consulta);
+    echo "Se edito el usuario correctamente";
+
+}
+function editar_registro($id){
+    global $mysqli;
+    $consulta = "SELECT * FROM usuarios WHERE id_usr = '$id'";
+    $resultado = mysqli_query($mysqli,$consulta);
+    
+    $fila = mysqli_fetch_array($resultado);
+    echo json_encode($fila);
+  }
 
 function eliminar_usuarios($id){
 	global $mysqli;
@@ -82,11 +97,8 @@ function insertar_usuarios(){
 	$telefono_usr = $_POST["telefono"];	
 	$consul1 = "INSERT INTO usuarios VALUES('','$nombre_usr','$correo_usr','$password', '$telefono_usr', 1)";
 	$resul1 = mysqli_query($mysqli, $consul1);
-	$arre1 = [];
-	while($fila1 = mysqli_fetch_array($resul1)){
-		array_push($arre1, $fila1);
-	}
-	echo json_encode($arre1);
+		echo "Se inserto el usuario en la BD ";
+		
 }
 
 function consultar_works(){
