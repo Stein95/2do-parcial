@@ -44,7 +44,9 @@
     } 
     else{
 
-    $.post('includes/_funciones.php', obj, function() {});
+    $.post('includes/_funciones.php', obj, function() {
+         window.location.replace("usuarios.php");
+    });
 
     }
     

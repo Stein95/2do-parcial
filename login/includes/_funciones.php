@@ -188,7 +188,7 @@ function login(){
 					$_SESSION['usuarios']=$correo;
 					echo $correo;
 					echo $_SESSION['usuarios'];
-  					header("location:../usuarios.php");
+  					
 					
 				}
 			}
