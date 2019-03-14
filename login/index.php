@@ -45,12 +45,18 @@
     else{
 
     $.post('includes/_funciones.php', obj, function() {
-         window.location.replace("usuarios.php");
+
+    window.location.replace("usuarios.php");
+
     });
+   
 
     }
+
     
 });
+
 </script>
+
 </body>
 </html>

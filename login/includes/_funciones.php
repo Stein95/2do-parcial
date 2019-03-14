@@ -20,32 +20,77 @@ switch ($_POST["accion"]) {
 	case 'eliminar_registro':
 		eliminar_usuarios($_POST["id"]);
 	break;
-	//main
 
-	case 'consultar_encabezado':
-	consultar_encabezado();
-	break;
-	case 'insertar_encabezado':
-	insertar_encabezado();
-	break;
-//works
+//**WORKS**//
 	case 'consultar_works':
 	consultar_works();
 	break;
 	case 'insertar_works':
 	insertar_works();
 	break;
+		case 'eliminar_works':
+	eliminar_works($_POST["id"]);
+	break;
+	case 'edit_works':
+	ceditar_features($_POST["id"]);
+	break;
+	case 'editar_works':
+	editar_works($_POST["id"]);
+	break;
+
+	//**OURTEAM**//
 	case 'consultar_ourteam':
 	consultar_ourteam();
 	break;
 	case 'insertar_ourteam':
 	insertar_ourteam();
 	break;
-
+		case 'eliminar_ourteam':
+	eliminar_ourteam($_POST["id"]);
+	break;
+	case 'ceditar_ourteam':
+	ceditar_ourteam($_POST["id"]);
+	break;
+	case 'editar_ourteam':
+	editar_ourteam($_POST["id"]);
+	break;
+	//foto
+	case 'carga_foto':
+	carga_foto();
+	
+		break;
 
 	default:
 	break;
 }
+//footos funcion que sirve para cualquier archivo foto pdf txt.....
+function carga_foto(){
+if(isset($_FILES["foto"])){
+	$file= $_FILES["foto"];
+	$nombre= $_FILES["foto"]["name"];
+	$temporal=$_FILES["foto"]["tmp_name"];
+	$tipo=$_FILES["foto"]["type"];
+	$tam=$_FILES["foto"]["size"];
+	$dir="../img/usuarios";
+
+	$respuesta=[
+		"archivo"=>"img/usuarios/logotipo.png",
+		"status"=>0
+	];
+	if (move_uploaded_file($temporal, $dir.$nombre)) {
+		$respuesta["archivo"]="img/usuarios/".$nombre;
+		$respuesta["status"]=1;
+	}
+
+	echo json_encode($respuesta);
+	
+}
+
+}
+
+
+
+//funciones de usuarios
 function consultar_usuarios(){
 	global $mysqli;
 	$consulta = "SELECT * FROM usuarios";
@@ -100,56 +145,110 @@ function insertar_usuarios(){
 		echo "Se inserto el usuario en la BD ";
 		
 }
-
+/////WORKS
 function consultar_works(){
 	global $mysqli;
-	$consul2 = "SELECT * FROM works";
-	$resul2 = mysqli_query($mysqli, $consulta);
-	$arre2 = [];
-	while($fila2 = mysqli_fetch_array($resul2)){
-		array_push($arre2, $fila2);
+	$consulta = "SELECT * FROM works";
+	$resultado = mysqli_query($mysqli, $consulta);
+	$arreglo = [];
+	while($fila = mysqli_fetch_array($resultado)){
+		array_push($arreglo, $fila);
 	}
-	echo json_encode($arre2); 
+	echo json_encode($arreglo); //Imprime el JSON ENCODEADO
 }
 function insertar_works(){
 	global $mysqli;
-	$imgW = $_POST["imagen"];
-	$proNameW= $_POST["proyecto"];	
-	$WebW = $_POST["website"];	
-	$consul3= "INSERT INTO works VALUES('','$imgW','$proNameW','$WebW')";
-	$resul3 = mysqli_query($mysqli, $consultain);
-	$arre3 = [];
-	while($fila3 = mysqli_fetch_array($resul3)){
-		array_push($arre3, $fila3);
+	$imgWo = $_POST["imagen"];
+	$priNameWo = $_POST["proyecto"];	
+	$webWo = $_POST["website"];	
+	$consultain = "INSERT INTO works VALUES('','$imgWo','$priNameWo','$webWo')";
+	$resultadoin = mysqli_query($mysqli, $consultain);
+	echo "Se inserto el usuario en la BD ";//Imprime el JSON ENCODEADO
+}
+function eliminar_works($id){
+	global $mysqli;
+	$consulta = "DELETE FROM works WHERE idWo = $id";
+	$resultado = mysqli_query($mysqli, $consulta);
+	// print_r($resultado);
+	if ($resultado) {
+		echo "Se elimino correctamente";
 	}
-	echo json_encode($arre3);
+	else{
+		echo "Se genero un error intenta nuevamente";
+	}
+}
+function edit_works($id){
+	global $mysqli;
+	$consulta = "SELECT * FROM works WHERE idWo = '$id'";
+	$resultado = mysqli_query($mysqli, $consulta);
+
+	$fila = mysqli_fetch_array($resultado);
+	    echo json_encode($fila);
+	}
+
+function editar_works($id){
+	global $mysqli;
+	$imgwo = $_POST["imagen"];
+	$prinamewo = $_POST["proyecto"];	
+	$webwo = $_POST["website"];	
+	$consultain = "UPDATE works SET imgwo = '$imgwo', prinamewo = '$prinamewo', webwo = '$webwo' WHERE idwo= $id";
+	$resultadoin = mysqli_query($mysqli, $consultain);
+    echo "Se edito el Work correctamente";
 }
 
-
+/////OURTEAM
 function consultar_ourteam(){
 	global $mysqli;
-	$consul4 = "SELECT * FROM ourteam";
-	$resul4 = mysqli_query($mysqli, $consul4);
-	$arre4 = [];
-	while($fila4 = mysqli_fetch_array($resul4)){
-		array_push($arre4, $fila4);
+	$consulta = "SELECT * FROM ourteam";
+	$resultado = mysqli_query($mysqli, $consulta);
+	$arreglo = [];
+	while($fila = mysqli_fetch_array($resultado)){
+		array_push($arreglo, $fila);
 	}
-	echo json_encode($arre4);
+	echo json_encode($arreglo); //Imprime el JSON ENCODEADO
 }
 function insertar_ourteam(){
 	global $mysqli;
-	$imgO = $_POST["imagen"];
-	$nomO = $_POST["nombre"];	
-	$cargO = $_POST["cargo"];	
-	$consul5 = "INSERT INTO ourteam VALUES('','$imgO','$nomO','$cargO')";
-	$resul5 = mysqli_query($mysqli, $consul5);
-	$arre5 = [];
-	while($fila5 = mysqli_fetch_array($resul5)){
-		array_push($arre5, $fila5);
+	$imgou = $_POST["imagen"];
+	$nomou = $_POST["nombre"];	
+	$cargou = $_POST["cargo"];	
+	$consultain = "INSERT INTO ourteam VALUES('','$imgou','$nomou','$cargou')";
+	$resultadoin = mysqli_query($mysqli, $consultain);
+	 //Imprime el JSON ENCODEADO
+	echo "Se inserto el usuario en la BD ";
+	 //Imprime el JSON ENCODEADO
+}
+function eliminar_ourteam($id){
+	global $mysqli;
+	$consulta = "DELETE FROM ourteam WHERE idou = $id";
+	$resultado = mysqli_query($mysqli, $consulta);
+	// print_r($resultado);
+	if ($resultado) {
+		echo "Se elimino correctamente";
 	}
-	echo json_encode($arregloin);
+	else{
+		echo "Se genero un error intenta nuevamente";
+	}
+}
+function ceditar_ourteam($id){
+	global $mysqli;
+	$consulta = "SELECT * FROM ourteam WHERE id_our = '$id'";
+	$resultado = mysqli_query($mysqli, $consulta);
+	$fila = mysqli_fetch_array($resultado);
+	    echo json_encode($fila);
+	}
+
+function editar_ourteam($id){
+	global $mysqli;
+	$img_our = $_POST["imagen"];
+	$nombre_our = $_POST["nombre"];	
+	$cargo_our = $_POST["cargo"];	
+	$consultain = "UPDATE ourteam SET imgou = '$img_our', nomou = '$nombre_our', cargou = '$cargo_our' WHERE idou = $id";
+	$resultadoin = mysqli_query($mysqli, $consultain);
+    echo "Se edito Ourteam correctamente";
 }
 
+//funciones Login
 function login(){
 		global $mysqli;
 
@@ -185,12 +284,12 @@ function login(){
 					session_start();
 					error_reporting(0);
 
-					$_SESSION['usuarios']=$correo;
-					echo $correo;
-					echo $_SESSION['usuarios'];
+					$_SESSION['usuarios']= $correo;
+
   					
 					
 				}
+
 			}
 
 ?>

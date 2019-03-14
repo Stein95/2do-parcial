@@ -37,7 +37,7 @@
           </table>
         </div>
         <div id="insert_data" class="view">
-          <form action="#" id="form_data">
+          <form action="#" id="form_data" enctype="multipart/form_data">
             <div class="row">
               <div class="col">
                 <div class="form-group">
@@ -54,6 +54,13 @@
                   <label for="telefono">Teléfono</label>
                   <input type="tel" id="telefono" name="telefono" class="form-control">
                 </div>
+<div class ="form-group">
+  <input type="file" name="foto" id="foto">
+  <input type="hidden" name="ruta"id="ruta" readonly="readonlys">
+</div>
+<div id="preview"></div>
+
+
                 <div class="form-group">
                   <label for="password">Contraseña</label>
                   <input type="password" id="password" name="password" class="form-control">
@@ -200,6 +207,31 @@ $('#list-usuarios').on("click",".editar_registro", function(e){
         }, "JSON");
             
       });
+//insercion de fotos o imagenes
+$("#foto").on("change", function(e){
+
+let formDatos = new FormData($("#form_data")[0]);
+formDatos.append("accion", "carga_foto");
+
+$.ajax({
+  url:"includes/_funciones.php",
+  type:"POST",
+  data : formDatos,
+  contentType: false,
+  processData:false,
+  success :function(datos){
+    let respuesta =JSON.parse(datos);
+    if (respuesta.status ==0) {
+      alert("No se cargo la foto");
+
+    }
+      let template=`<img src="${respuesta.archivo}" alt="" class="img-fluid" />`;
+      $("#ruta").val(respuesta.archivo);
+      $("#preview").html(template);
+
+  }
+});
+});
 
 
         $("#main").find(".cancelar").click(function(){
